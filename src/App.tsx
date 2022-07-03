@@ -1,12 +1,19 @@
 import React from 'react';
-import Home from "./pages/Home"
+import MyRoutes from './routes/myRoutes';
 import './App.css';
+import { BrowserRouter } from 'react-router-dom'
+
+
 
 function App() {
     return (
-        <div className="App" style={{height:'100%'}}>
-            <Home/>
+        <BrowserRouter>
+        <div className="App" style={{ height: '100%' }}>
+            
+              <MyRoutes/>
+           
         </div>
+        </BrowserRouter>
     );
 }
 
