@@ -41,6 +41,8 @@ const Login: React.FC = () => {
         // 校验后的数据 可以提交
         form.validateFields().then((values)=>{
             console.log(values)
+            // 执行请求
+
         })
     }
     return (
@@ -53,20 +55,19 @@ const Login: React.FC = () => {
                     onFinish={finish}
                 >
                     <Form.Item required={true} name={"username"} rules={[{required: true,message: "用户名必填"},{min:8,message:"最短8位"},{max:20,message:"最长20位"}]}>
-                        <Input placeholder={"请输入用户名"}/>
+                        <Input placeholder={"请输入用户名"} autoComplete={'off'}/>
                     </Form.Item>
                     <Form.Item required={true} name={"pwd"} rules={[{required: true,message: "密码必填"},{min:8,message:"最短8位"},{max:20,message:"最长20位"}]}>
                         <Input placeholder={"密码"} type={"password"}/>
                     </Form.Item>
                     <Form.Item>
                         <Checkbox checked={checked} onChange={()=>setChecked(!checked)}>记住密码</Checkbox>
-                        <a  style={{float:'right'}} href="">
+                        <a  style={{float:'right'}}>
                             忘记密码
                         </a>
                     </Form.Item>
                     <Form.Item required={true}>
                         <Button type={"primary"} htmlType={"submit"} style={{width: "100%"}}>登录</Button>
-
                     </Form.Item>
                 </Form>
             </div>
