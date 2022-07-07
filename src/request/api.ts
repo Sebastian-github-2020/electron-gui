@@ -5,10 +5,7 @@ import {request} from "./request";
 
 // 1. login
 
-const apiLogin = () => request.post("/login", {
-    "username": "",
-    "password": ""
-})
+const apiLogin = (data:{"username":string,"password":string}) => request.post("/login", data)
 
 
 export {

@@ -4,6 +4,8 @@ import {Input, Form, Button, Checkbox} from 'antd'
 import bgc from "../../static/images/bgc.svg"
 import React, {useEffect, useState} from "react";
 import logo from "../../static/images/logo.gif"
+import {apiLogin} from '../../request/api'
+
 
 const DivLogin = styled.div`
   background: url(${bgc}) center no-repeat;
@@ -42,7 +44,9 @@ const Login: React.FC = () => {
         form.validateFields().then((values)=>{
             console.log(values)
             // 执行请求
-
+            apiLogin({...values}).then((res)=>{
+                console.log(res)
+            })
         })
     }
     return (
@@ -54,10 +58,10 @@ const Login: React.FC = () => {
                     layout={"vertical"}
                     onFinish={finish}
                 >
-                    <Form.Item required={true} name={"username"} rules={[{required: true,message: "用户名必填"},{min:8,message:"最短8位"},{max:20,message:"最长20位"}]}>
+                    <Form.Item required={true} name={"username"} rules={[{required: true,message: "用户名必填"},{min:5,message:"最短5位"},{max:20,message:"最长20位"}]}>
                         <Input placeholder={"请输入用户名"} autoComplete={'off'}/>
                     </Form.Item>
-                    <Form.Item required={true} name={"pwd"} rules={[{required: true,message: "密码必填"},{min:8,message:"最短8位"},{max:20,message:"最长20位"}]}>
+                    <Form.Item required={true} name={"password"} rules={[{required: true,message: "密码必填"},{min:5,message:"最短5位"},{max:20,message:"最长20位"}]}>
                         <Input placeholder={"密码"} type={"password"}/>
                     </Form.Item>
                     <Form.Item>

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // base url
-const BASE_URL = ""
+const BASE_URL = "http://127.0.0.1:8000"
 //超时时间
 const TIMEOUT = 5000
 // token
