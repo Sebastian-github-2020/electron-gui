@@ -5,8 +5,10 @@ import bgc from "../../static/images/bgc.svg"
 import React, {useEffect, useState} from "react";
 import logo from "../../static/images/logo.gif"
 import {apiLogin} from '../../request/api'
-import {useSelector, useDispatch} from "react-redux";
-import {login} from "../../state/actions"
+import useStore from "../../state/zustandStore"
+
+
+
 
 const DivLogin = styled.div`
   background: url(${bgc}) center no-repeat;
@@ -40,8 +42,9 @@ const Login: React.FC = () => {
     const [checked, setChecked] = useState(false)
 
     // @ts-ignore
-    const token = useSelector(state => state.token)
-    const dispatch = useDispatch()
+    const token = useStore(state=>state.token)
+    // @ts-ignore
+    const login =useStore(state=>state.login)
 
 
     useEffect(() => {
@@ -51,10 +54,7 @@ const Login: React.FC = () => {
 
     // 点击提交表单
     const finish = (values: any) => {
-        dispatch({
-            type: login,
-            payload: "123asdasfsdfs"
-        })
+
         // 校验后的数据 可以提交
         form.validateFields().then((values) => {
             console.log(values)
@@ -62,7 +62,7 @@ const Login: React.FC = () => {
             // apiLogin({...values}).then((res) => {
             //     console.log(res)
             // })
-
+            login("Adasdgdfgashfhsdondkjsfndk")
         })
 
     }
