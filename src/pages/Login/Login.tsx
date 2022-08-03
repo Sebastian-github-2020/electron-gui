@@ -4,9 +4,9 @@ import {Input, Form, Button, Checkbox} from 'antd'
 import bgc from "../../static/images/bgc.svg"
 import React, {useEffect, useState} from "react";
 import logo from "../../static/images/logo.gif"
-import {apiLogin} from '../../request/api'
-import useStore from "../../state/zustandStore"
-
+// import {apiLogin} from '../../request/api'
+import {useSelector,useDispatch} from 'react-redux'
+import {login} from "../../state/actions"
 
 
 
@@ -42,9 +42,9 @@ const Login: React.FC = () => {
     const [checked, setChecked] = useState(false)
 
     // @ts-ignore
-    const token = useStore(state=>state.token)
+    const token = useSelector(state=>state.token)
     // @ts-ignore
-    const login =useStore(state=>state.login)
+    const dispatch = useDispatch()
 
 
     useEffect(() => {
@@ -54,7 +54,7 @@ const Login: React.FC = () => {
 
     // 点击提交表单
     const finish = (values: any) => {
-
+        console.log(token)
         // 校验后的数据 可以提交
         form.validateFields().then((values) => {
             console.log(values)
@@ -62,8 +62,14 @@ const Login: React.FC = () => {
             // apiLogin({...values}).then((res) => {
             //     console.log(res)
             // })
-            login("Adasdgdfgashfhsdondkjsfndk")
+            // login("Adasdgdfgashfhsdondkjsfndk")
+            dispatch({
+                type:login,
+                payload:"登录token"
+            })
         })
+
+
 
     }
 
@@ -71,7 +77,7 @@ const Login: React.FC = () => {
     return (
         <DivLogin>
             <div className="login">
-                <div>{token}</div>
+                <div>token:{token}</div>
                 <img src={logo} width={"100px"} style={{marginBottom: "10px"}} alt={"logo"}/>
                 <Form
                     form={form}
@@ -94,7 +100,7 @@ const Login: React.FC = () => {
                     </Form.Item>
                     <Form.Item>
                         <Checkbox checked={checked} onChange={() => setChecked(!checked)}>记住密码</Checkbox>
-                        <a style={{float: 'right'}}>
+                        <a href={"#"} style={{float: 'right'}}>
                             忘记密码
                         </a>
                     </Form.Item>

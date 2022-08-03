@@ -5,6 +5,7 @@ import Home from "../pages/Home";
 import useRouterGuard from "./routeGuard";
 const MyRoutes = ()=>{
     const location = useLocation()
+    // 权限校验
     useRouterGuard(location.pathname)
     return (
         <Routes>

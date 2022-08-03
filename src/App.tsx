@@ -9,9 +9,7 @@ function App() {
     return (
         <BrowserRouter>
         <div className="App" style={{ height: '100%' }}>
-            
               <MyRoutes/>
-           
         </div>
         </BrowserRouter>
     );
