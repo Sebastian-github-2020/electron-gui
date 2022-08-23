@@ -1,74 +1,91 @@
-import {useEffect,useState} from 'react'
-import {Layout,Menu} from "antd";
+import {useEffect, useState} from 'react'
+import {Layout, Menu} from "antd";
 import {
     UploadOutlined,
     UserOutlined,
     VideoCameraOutlined,
 } from '@ant-design/icons';
-const {Header,Content,Sider} = Layout
+import {Outlet, useNavigate} from "react-router-dom";
+
+
+
+const {Header, Content, Sider} = Layout
 
 const Home = () => {
     const [menuData] = useState([
         {
-            key: '1',
-            icon: <UserOutlined />,
-            label: 'nav 1',
-            children:[
+            key: 'free',
+            icon: <UserOutlined/>,
+            label: '优惠',
+            children: [
                 {
-                    key:'1-1',
-                    label:"子集"
+                    key: 'free-code',
+                    label: "优惠核销"
                 }
             ]
         },
         {
-            key: '2',
-            icon: <VideoCameraOutlined />,
-            label: 'nav 2',
+            key: 'edit',
+            icon: <VideoCameraOutlined/>,
+            label: '编辑',
             children: [
                 {
-                    label: '子集2',
-                    key:'2-1'
+                    label: '文案编辑器',
+                    key: 'copy-edit'
                 }
             ]
         },
         {
             key: '3',
-            icon: <UploadOutlined />,
-            label: 'nav 3',
+            icon: <UploadOutlined/>,
+            label: '待开发',
             children: [
-                {
-                    label: '子集3',
-                    key:'3-1'
-                }
+                // {
+                //     label: '子集3',
+                //     key:'3-1'
+                // }
             ]
         },
     ])
+    const navigate = useNavigate()
+    const menuClick = (item: any) => {
+        const keys:{[key:string]:string} = {
+            "free-code": "",
+            "copy-edit": "editor"
+        };
 
+
+        const {key} = item;
+
+        navigate(keys[key])
+    }
 
     useEffect(() => {
         document.title = "首页"
     }, [])
     return (
-        <Layout style={{height:'100%'}}>
-           <Sider>
-               {/*logo*/}
-               <div className={"logo"} style={{height:'64px',backgroundColor:'#334454',margin:'10px'}}>
-                   <img src={require('../static/images/logo.gif')}  style={{height:'100%'}} alt=""/>
-               </div>
-           {/*    菜单*/}
-               <Menu
-                   theme={"dark"}
-                   mode="inline"
-                   defaultSelectedKeys={['1']}
-                   style={{height:'100%'}}
-                   items={menuData}
-               />
-           </Sider>
+        <Layout style={{height: '100%'}}>
+            <Sider>
+                {/*logo*/}
+                <div className={"logo"} style={{height: '64px', backgroundColor: '#334454', margin: '10px'}}>
+                    <img src={require('../static/images/logo.gif')} style={{height: '100%'}} alt=""/>
+                </div>
+                {/*    菜单*/}
+                <Menu
+                    theme={"dark"}
+                    mode="inline"
+                    defaultSelectedKeys={['edit','editor']}
+                    // openKeys={['edit','editor']}
+                    style={{height: '100%'}}
+                    items={menuData}
+                    onClick={menuClick}
+                />
+            </Sider>
             <Layout>
-                <Header style={{background:'#fff'}}>顶部</Header>
-                <Content style={{background:'#F0F2F5',padding:'24px'}}>
-                    <div style={{background:'#fff',height:'100%'}}>
-
+                <Header style={{background: '#fff'}}>顶部</Header>
+                <Content style={{background: '#F0F2F5', padding: '24px'}}>
+                    <div style={{background: '#fff', height: '100%'}}>
+                        <Outlet/>
                     </div>
                 </Content>
             </Layout>

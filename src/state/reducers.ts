@@ -4,7 +4,7 @@ interface IState {
 }
 
 const initialState: IState = {
-    token: "redux"
+    token: ""
 }
 
 interface IAction<T> {

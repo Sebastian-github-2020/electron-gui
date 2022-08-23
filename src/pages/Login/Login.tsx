@@ -1,13 +1,13 @@
 // @ts-ignore
 import styled from "styled-components";
-import {Input, Form, Button, Checkbox} from 'antd'
+import {Input, Form, Button, Checkbox, Spin, message} from 'antd'
 import bgc from "../../static/images/bgc.svg"
 import React, {useEffect, useState} from "react";
 import logo from "../../static/images/logo.gif"
-// import {apiLogin} from '../../request/api'
-import {useSelector,useDispatch} from 'react-redux'
+import {apiLogin} from '../../request/api'
+import {useSelector, useDispatch} from 'react-redux'
 import {login} from "../../state/actions"
-
+import {useNavigate} from 'react-router-dom'
 
 
 const DivLogin = styled.div`
@@ -33,6 +33,11 @@ const DivLogin = styled.div`
     }
   }
 
+  .loading {
+    position: absolute;
+    top: 175px;
+    left: 128px;
+  }
 `;
 
 // 登录页
@@ -40,17 +45,20 @@ const Login: React.FC = () => {
 
     const [form] = Form.useForm();
     const [checked, setChecked] = useState(false)
+    const [loading, setLoading] = useState<boolean>(false) // loading状态
 
     // @ts-ignore
-    const token = useSelector(state=>state.token)
+    const token = useSelector(state => state.token)
     // @ts-ignore
     const dispatch = useDispatch()
 
+    const navigate = useNavigate()
 
     useEffect(() => {
         document.title = "登录"
 
     }, [])
+
 
     // 点击提交表单
     const finish = (values: any) => {
@@ -58,17 +66,34 @@ const Login: React.FC = () => {
         // 校验后的数据 可以提交
         form.validateFields().then((values) => {
             console.log(values)
+            setLoading(true)
             // 执行请求
-            // apiLogin({...values}).then((res) => {
-            //     console.log(res)
-            // })
-            // login("Adasdgdfgashfhsdondkjsfndk")
-            dispatch({
-                type:login,
-                payload:"登录token"
-            })
-        })
+            apiLogin({...values}).then((res) => {
+                const {status, data} = res
+                dispatch({
+                    type: login,
+                    payload: data.access
+                })
+                console.log("登录结果", res)
+                setTimeout(() => {
+                    setLoading(false)
+                    navigate("/home")
+                }, 1000)
 
+            }).catch(err => {
+                console.log("错误信息", err.response.data)
+                setLoading(false)
+
+                message.info(err.response.data.msg);
+            })
+            // // login("Adasdgdfgashfhsdondkjsfndk")
+            // dispatch({
+            //     type:login,
+            //     payload:"登录token"
+            // })
+            // navigate("/home")
+
+        })
 
 
     }
@@ -77,7 +102,7 @@ const Login: React.FC = () => {
     return (
         <DivLogin>
             <div className="login">
-                <div>token:{token}</div>
+                {/*<div>token:{token}</div>*/}
                 <img src={logo} width={"100px"} style={{marginBottom: "10px"}} alt={"logo"}/>
                 <Form
                     form={form}
@@ -109,6 +134,9 @@ const Login: React.FC = () => {
                     </Form.Item>
 
                 </Form>
+                {loading ? <div className={"loading"}>
+                    <Spin delay={250}/>
+                </div> : null}
             </div>
         </DivLogin>
     )
